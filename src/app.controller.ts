@@ -1,5 +1,4 @@
-import { ConflictException, Controller } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller } from '@nestjs/common';
 import { SignalService } from './signal/signal.service';
 import {
   Ctx,
@@ -24,7 +23,6 @@ export class AppController {
       console.log('Signal saved:', savedSignal);
     } catch (error) {
       console.error('Error in RabbitMQ consumer:', error);
-      return ConflictException;
     }
   }
 }
