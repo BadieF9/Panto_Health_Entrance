@@ -1,3 +1,3 @@
-export enum XRayPattern {
+export enum XrayPattern {
   DATA = 'DATA',
 }
