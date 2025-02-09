@@ -66,7 +66,7 @@ export class SignalService {
   ): Promise<Xray> {
     return this.xrayModel
       .findByIdAndUpdate(id, updateXrayDto, { new: true })
-      .exec(); // { new: true } returns the updated document
+      .exec();
   }
 
   async remove(id: string): Promise<void> {
@@ -84,7 +84,7 @@ export class SignalService {
       filter.deviceId = deviceId;
     }
     if (startTime && endTime) {
-      filter.time = { $gte: startTime, $lte: endTime }; // MongoDB time range query
+      filter.time = { $gte: startTime, $lte: endTime };
     } else if (startTime) {
       filter.time = { $gte: startTime };
     } else if (endTime) {

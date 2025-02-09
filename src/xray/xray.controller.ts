@@ -37,7 +37,6 @@ export class XrayController {
     @Param('id') id: string,
     @Body() updateXrayDto: Partial<CreateXrayDto>,
   ): Promise<Xray> {
-    // Consider DTO for update
     return this.signalService.update(id, updateXrayDto);
   }
 
