@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { ConflictException, Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SignalService } from './signal/signal.service';
 import {
@@ -11,10 +11,7 @@ import { XrayPattern } from './constants/x-ray-pattern';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly signalService: SignalService,
-  ) {}
+  constructor(private readonly signalService: SignalService) {}
 
   @MessagePattern(XrayPattern.DATA)
   async xRayDataHandler(
@@ -27,6 +24,7 @@ export class AppController {
       console.log('Signal saved:', savedSignal);
     } catch (error) {
       console.error('Error in RabbitMQ consumer:', error);
+      return ConflictException;
     }
   }
 }

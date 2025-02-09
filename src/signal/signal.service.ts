@@ -10,6 +10,13 @@ export class SignalService {
 
   async saveSignal(xrayData: CreateXrayDto): Promise<Xray> {
     try {
+      const xray = await this.xrayModel
+        .findOne({ deviceId: xrayData.deviceId })
+        .exec();
+      if (xray) {
+        throw new Error('Signal already exists');
+      }
+      
       const { deviceId, data, time } = xrayData;
 
       const dataLength = data.length;
