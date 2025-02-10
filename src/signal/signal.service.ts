@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Xray } from '../schemas/x-ray.schema';
@@ -14,7 +18,7 @@ export class SignalService {
         .findOne({ deviceId: xrayData.deviceId })
         .exec();
       if (xray) {
-        throw new Error('Signal already exists');
+        throw new ConflictException('Signal already exists');
       }
 
       const { deviceId, data, time } = xrayData;
@@ -77,13 +81,21 @@ export class SignalService {
     id: string,
     updateXrayDto: Partial<CreateXrayDto>,
   ): Promise<Xray> {
-    return this.xrayModel
-      .findByIdAndUpdate(id, updateXrayDto, { new: true })
-      .exec();
+    try {
+      return this.xrayModel
+        .findByIdAndUpdate(id, updateXrayDto, { new: true })
+        .exec();
+    } catch (error) {
+      throw new NotFoundException('Xray not found');
+    }
   }
 
   async remove(id: string): Promise<void> {
-    await this.xrayModel.findByIdAndDelete(id).exec();
+    try {
+      await this.xrayModel.findByIdAndDelete(id).exec();
+    } catch (error) {
+      throw new NotFoundException('Xray not found');
+    }
   }
 
   async findFiltered(

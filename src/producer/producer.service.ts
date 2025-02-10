@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -10,7 +14,6 @@ import { XrayPattern } from '../constants/x-ray-pattern';
 
 @Injectable()
 export class ProducerService {
-  private readonly logger = new Logger(ProducerService.name);
   private client: ClientProxy;
 
   constructor() {
@@ -26,22 +29,21 @@ export class ProducerService {
     });
   }
 
-  async sendXrayDataFromFile(): Promise<void> {
+  async sendXrayDataFromFile(): Promise<void | InternalServerErrorException> {
     try {
       const xrayData = await this.readAndParseJson('./x-ray.json');
 
       await this.client.emit(XrayPattern.DATA, xrayData);
-
-      this.logger.log('X-ray data sent from file');
     } catch (error) {
-      this.logger.error('Error sending x-ray data from file:', error);
+      return new InternalServerErrorException(
+        `Error sending x-ray data from file: ${error}`,
+      );
     }
   }
 
   private async readAndParseJson(filePath: string): Promise<any> {
     try {
       const fullPath = join(process.cwd(), filePath);
-      console.log('Reading file:', fullPath);
 
       return await fs.readFile(fullPath, 'utf8');
     } catch (error) {
