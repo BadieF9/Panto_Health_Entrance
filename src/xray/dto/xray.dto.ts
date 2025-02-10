@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-class DataPointDto {
+export class DataPointDto {
   @IsNumber()
   time: number;
 
@@ -17,7 +17,7 @@ class DataPointDto {
   coordinateSpeed: CoordinateSpeedDto[];
 }
 
-class CoordinateSpeedDto {
+export class CoordinateSpeedDto {
   @IsNumber()
   x: number;
 

@@ -9,8 +9,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Xray } from 'src/schemas/x-ray.schema';
-import { SignalService } from 'src/signal/signal.service';
+import { Xray } from '../schemas/x-ray.schema';
+import { SignalService } from '../signal/signal.service';
 import { CreateXrayDto } from './dto/xray.dto';
 
 @Controller('xray')

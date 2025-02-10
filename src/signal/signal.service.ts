@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Xray } from 'src/schemas/x-ray.schema';
-import { CreateXrayDto } from 'src/xray/dto/xray.dto';
+import { Xray } from '../schemas/x-ray.schema';
+import { CreateXrayDto } from '../xray/dto/xray.dto';
 
 @Injectable()
 export class SignalService {
@@ -16,13 +16,13 @@ export class SignalService {
       if (xray) {
         throw new Error('Signal already exists');
       }
-      
+
       const { deviceId, data, time } = xrayData;
 
       const dataLength = data.length;
       const dataVolume = JSON.stringify(data).length;
 
-      const newXray = new this.xrayModel({
+      const savedXray = await this.xrayModel.create({
         deviceId,
         time,
         dataLength,
@@ -30,7 +30,6 @@ export class SignalService {
         data: data,
       });
 
-      const savedXray = await newXray.save();
       return savedXray;
     } catch (error) {
       console.error('Error saving signal:', error);
@@ -46,7 +45,14 @@ export class SignalService {
       const data = xrayData[deviceId].data;
       const time = xrayData[deviceId].time;
 
-      if (!deviceId || !data || !time) {
+      if (
+        !deviceId ||
+        !data ||
+        !data[0].coordinateSpeed ||
+        !data[0].coordinateSpeed[0].x ||
+        !data[0].coordinateSpeed[0].y ||
+        !time
+      ) {
         throw new Error(
           'Invalid x-ray data format. Missing deviceId, data, or time.',
         );

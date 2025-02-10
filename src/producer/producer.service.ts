@@ -6,7 +6,7 @@ import {
 } from '@nestjs/microservices';
 import * as fs from 'fs/promises';
 import { join } from 'path';
-import { XrayPattern } from 'src/constants/x-ray-pattern';
+import { XrayPattern } from '../constants/x-ray-pattern';
 
 @Injectable()
 export class ProducerService {
