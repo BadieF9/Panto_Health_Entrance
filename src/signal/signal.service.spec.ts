@@ -22,14 +22,13 @@ describe('SignalService', () => {
     data: [mockDataPoint],
   };
 
-  // Transform DataPointDto[] to [number, [number, number, number]][]
   const tupleData = mockXray.data.map((dataPoint) => [
     dataPoint.time,
     dataPoint.coordinateSpeed.map((coordSpeed) => [
       coordSpeed.x,
       coordSpeed.y,
       coordSpeed.speed,
-    ])[0], // Assuming only one coordinateSpeed per DataPoint
+    ])[0],
   ]);
 
   const mockSavedXray: Xray = {
@@ -47,12 +46,12 @@ describe('SignalService', () => {
 
   beforeEach(async () => {
     model = {
-      findOne: jest.fn().mockReturnValue({ exec: jest.fn() }), // Mock findOne and exec
-      create: jest.fn().mockResolvedValue(mockSavedXray), // Mock create
-      find: jest.fn().mockReturnValue({ exec: jest.fn() }), // Mock find and exec
-      findById: jest.fn().mockReturnValue({ exec: jest.fn() }), // Mock findById and exec
-      findByIdAndUpdate: jest.fn().mockReturnValue({ exec: jest.fn() }), // Mock findByIdAndUpdate and exec
-      findByIdAndDelete: jest.fn().mockReturnValue({ exec: jest.fn() }), // Mock findByIdAndDelete and exec
+      findOne: jest.fn().mockReturnValue({ exec: jest.fn() }),
+      create: jest.fn().mockResolvedValue(mockSavedXray),
+      find: jest.fn().mockReturnValue({ exec: jest.fn() }),
+      findById: jest.fn().mockReturnValue({ exec: jest.fn() }),
+      findByIdAndUpdate: jest.fn().mockReturnValue({ exec: jest.fn() }),
+      findByIdAndDelete: jest.fn().mockReturnValue({ exec: jest.fn() }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -87,7 +86,7 @@ describe('SignalService', () => {
     model.findOne.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockSavedXray),
     }); // Mock WITHIN the test
-    await expect(service.saveSignal(mockXray)).rejects.toThrowError(
+    await expect(service.saveSignal(mockXray)).rejects.toThrow(
       'Signal already exists',
     );
   });
@@ -105,7 +104,7 @@ describe('SignalService', () => {
   it('should throw an error for invalid x-ray data format', () => {
     const invalidMessage = JSON.stringify({ invalid: 'data' });
 
-    expect(() => service.processXrayData(invalidMessage)).toThrowError(
+    expect(() => service.processXrayData(invalidMessage)).toThrow(
       'Invalid x-ray data format. Missing deviceId, data, or time.',
     );
   });
@@ -135,14 +134,14 @@ describe('SignalService', () => {
       _id: 'some-id',
       deviceId: 'device1',
       time: 1678886400000,
-      data: [[1678886400000, [1, 2, 3]]], // Or your actual data
+      data: [[1678886400000, [1, 2, 3]]],
       dataLength: 1,
       dataVolume: JSON.stringify([[1678886400000, [1, 2, 3]]]).length,
     };
 
     model.findById.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockXray),
-    }); // Mock WITHIN the test
+    });
 
     const foundXray = await service.findById('some-id');
 
@@ -152,11 +151,11 @@ describe('SignalService', () => {
 
   it('should update a signal', async () => {
     const updateData = { time: 1678972800000 };
-    const updatedXray = { ...mockSavedXray, ...updateData }; // Or your expected updated object
+    const updatedXray = { ...mockSavedXray, ...updateData };
 
     model.findByIdAndUpdate.mockReturnValue({
       exec: jest.fn().mockResolvedValue(updatedXray),
-    }); // Mock within the test
+    });
 
     const result = await service.update('some-id', updateData);
 
@@ -179,11 +178,11 @@ describe('SignalService', () => {
       time: { $gte: 1678886400000, $lte: 1678972800000 },
     };
 
-    const mockXrays: Xray[] = [mockSavedXray]; // Or your expected results
+    const mockXrays: Xray[] = [mockSavedXray];
 
     model.find.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockXrays),
-    }); // Mock WITHIN the test
+    });
 
     const foundXrays = await service.findFiltered(
       'testDevice',
@@ -197,11 +196,11 @@ describe('SignalService', () => {
 
   it('should find filtered signals by deviceId', async () => {
     const filter = { deviceId: 'testDevice' };
-    const mockXrays: Xray[] = [mockSavedXray]; // Array of Xray objects
+    const mockXrays: Xray[] = [mockSavedXray];
 
     model.find.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockXrays),
-    }); // Mock WITHIN the test
+    });
 
     const foundXrays = await service.findFiltered('testDevice');
 
@@ -211,11 +210,11 @@ describe('SignalService', () => {
 
   it('should find filtered signals by startTime', async () => {
     const filter = { time: { $gte: 1678886400000 } };
-    const mockXrays: Xray[] = [mockSavedXray]; // Array of Xray objects
+    const mockXrays: Xray[] = [mockSavedXray];
 
     model.find.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockXrays),
-    }); // Mock WITHIN the test
+    });
 
     const foundXrays = await service.findFiltered(undefined, 1678886400000);
 
@@ -225,11 +224,11 @@ describe('SignalService', () => {
 
   it('should find filtered signals by endTime', async () => {
     const filter = { time: { $lte: 1678972800000 } };
-    const mockXrays: Xray[] = [mockSavedXray]; // Array of Xray objects
+    const mockXrays: Xray[] = [mockSavedXray];
 
     model.find.mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockXrays),
-    }); // Mock WITHIN the test
+    });
 
     const foundXrays = await service.findFiltered(
       undefined,

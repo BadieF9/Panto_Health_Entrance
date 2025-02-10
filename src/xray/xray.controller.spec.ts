@@ -57,20 +57,16 @@ describe('XrayController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('create', () => {
-    it('should create an xray record', async () => {
-      const result = await controller.create(createXrayDto);
-      expect(service.saveSignal).toHaveBeenCalledWith(createXrayDto);
-      expect(result).toEqual(mockXray);
-    });
+  it('should create an xray record', async () => {
+    const result = await controller.create(createXrayDto);
+    expect(service.saveSignal).toHaveBeenCalledWith(createXrayDto);
+    expect(result).toEqual(mockXray);
   });
 
-  describe('findAll', () => {
-    it('should return all xray records', async () => {
-      const result = await controller.findAll();
-      expect(service.findAll).toHaveBeenCalled();
-      expect(result).toEqual([mockXray]);
-    });
+  it('should return all xray records', async () => {
+    const result = await controller.findAll();
+    expect(service.findAll).toHaveBeenCalled();
+    expect(result).toEqual([mockXray]);
   });
 
   describe('findOne', () => {
@@ -91,20 +87,16 @@ describe('XrayController', () => {
     });
   });
 
-  describe('update', () => {
-    it('should update an xray record', async () => {
-      const updateXrayDto = { time: 1678972800000 };
-      const result = await controller.update('some-id', updateXrayDto);
-      expect(service.update).toHaveBeenCalledWith('some-id', updateXrayDto);
-      expect(result).toEqual(mockXray);
-    });
+  it('should update an xray record', async () => {
+    const updateXrayDto = { time: 1678972800000 };
+    const result = await controller.update('some-id', updateXrayDto);
+    expect(service.update).toHaveBeenCalledWith('some-id', updateXrayDto);
+    expect(result).toEqual(mockXray);
   });
 
-  describe('remove', () => {
-    it('should remove an xray record', async () => {
-      await controller.remove('some-id');
-      expect(service.remove).toHaveBeenCalledWith('some-id');
-    });
+  it('should remove an xray record', async () => {
+    await controller.remove('some-id');
+    expect(service.remove).toHaveBeenCalledWith('some-id');
   });
 
   describe('findFiltered', () => {
