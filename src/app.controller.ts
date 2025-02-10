@@ -20,7 +20,6 @@ export class AppController {
     try {
       const processedData = this.signalService.processXrayData(data);
       const savedSignal = await this.signalService.saveSignal(processedData);
-      console.log('Signal saved:', savedSignal);
     } catch (error) {
       console.error('Error in RabbitMQ consumer:', error);
     }
