@@ -3,40 +3,30 @@ import { SignalService } from './signal.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { Xray } from '../schemas/x-ray.schema';
 import { CreateXrayDto } from '../xray/dto/xray.dto';
-import { DataPointDto, CoordinateSpeedDto } from '../xray/dto/xray.dto'; // Import DTOs
 
 describe('SignalService', () => {
   let service: SignalService;
   let model: any;
 
-  const mockCoordinateSpeed: CoordinateSpeedDto = { x: 1, y: 2, speed: 3 };
-
-  const mockDataPoint: DataPointDto = {
-    time: 1678886400000,
-    coordinateSpeed: [mockCoordinateSpeed],
-  };
+  const mockCoordinateSpeed: [number, number[]] = [
+    1678886400000,
+    [51.339764, 12.339223833333334, 1.2038000000000002],
+  ];
 
   const mockXray: CreateXrayDto = {
     deviceId: 'testDevice',
     time: 1678886400000,
-    data: [mockDataPoint],
+    data: [
+      [1678886400000, [51.339764, 12.339223833333334, 1.2038000000000002]],
+      [1678886401000, [51.34, 12.34, 1.3]],
+    ],
   };
-
-  const tupleData = mockXray.data.map((dataPoint) => [
-    dataPoint.time,
-    dataPoint.coordinateSpeed.map((coordSpeed) => [
-      coordSpeed.x,
-      coordSpeed.y,
-      coordSpeed.speed,
-    ])[0],
-  ]);
 
   const mockSavedXray: Xray = {
     _id: 'some-id',
     deviceId: 'testDevice',
     time: 1678886400000,
-    data: [
-      { time: 1234567890, coordinateSpeed: [mockCoordinateSpeed] },
+    data: [1234567890, [1234567890, mockCoordinateSpeed],
     ] as unknown,
     dataLength: 1,
     dataVolume: JSON.stringify([

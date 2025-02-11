@@ -1,4 +1,3 @@
-// xray.controller.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { XrayController } from './xray.controller';
 import { SignalService } from '..//signal/signal.service';
@@ -10,25 +9,28 @@ describe('XrayController', () => {
   let controller: XrayController;
   let service: SignalService;
 
-  const mockCoordinateSpeed = { x: 10, y: 20, speed: 5 };
-
   const mockXray: Xray = {
     _id: 'some-id',
     deviceId: 'testDevice',
     time: 1678886400000,
     data: [
-      { time: 1234567890, coordinateSpeed: [mockCoordinateSpeed] },
+      [1678886400000, [51.339764, 12.339223833333334, 1.2038000000000002]],
+      [1678886401000, [51.34, 12.34, 1.3]],
     ] as unknown,
     dataLength: 1,
-    dataVolume: JSON.stringify([
-      { time: 1234567890, coordinateSpeed: [mockCoordinateSpeed] },
-    ]).length,
+    dataVolume: [
+      [1678886400000, [51.339764, 12.339223833333334, 1.2038000000000002]],
+      [1678886401000, [51.34, 12.34, 1.3]],
+    ].length,
   } as Xray;
 
   const createXrayDto: CreateXrayDto = {
     deviceId: 'testDevice',
     time: 1678886400000,
-    data: [{ time: 1234567890, coordinateSpeed: [mockCoordinateSpeed] }],
+    data: [
+      [1678886400000, [51.339764, 12.339223833333334, 1.2038000000000002]],
+      [1678886401000, [51.34, 12.34, 1.3]],
+    ],
   };
 
   beforeEach(async () => {

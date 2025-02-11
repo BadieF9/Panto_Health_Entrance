@@ -52,9 +52,6 @@ export class SignalService {
       if (
         !deviceId ||
         !data ||
-        !data[0].coordinateSpeed ||
-        !data[0].coordinateSpeed[0].x ||
-        !data[0].coordinateSpeed[0].y ||
         !time
       ) {
         throw new Error(
