@@ -4,7 +4,7 @@ services:
   app:
     build: .
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/tasks
+      - MONGODB_URI=mongodb://mongodb:27017/x-ray
       - RABBITMQ_URL=amqp://rabbitmq:5672
     ports:
       - '3000:3000'
