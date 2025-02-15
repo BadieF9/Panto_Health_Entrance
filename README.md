@@ -47,11 +47,11 @@ This application can be run either locally (for development) or using Docker and
 
 1.  **Start MongoDB:** Ensure you have a running MongoDB instance. If you installed MongoDB locally, start the MongoDB server using the appropriate command for your operating system (e.g., `mongod` in a separate terminal).
 
-2.  **Start RabbitMQ (if applicable):** If your application uses RabbitMQ, make sure you have a running RabbitMQ instance. Start the RabbitMQ server using the appropriate command for your operating system (e.g., `rabbitmq-server`).
+2.  **Start RabbitMQ:** Make sure you have a running RabbitMQ instance. Start the RabbitMQ server using the appropriate command for your operating system (e.g., `rabbitmq-server`).
 
-3.  **Configure Environment Variables (Optional):**
+3.  **Configure Environment Variables:**
 
-    Create a `.env` file in the root of your project and add the necessary environment variables (e.g., database connection string, RabbitMQ connection details). See the [Environment Variables](#environment-variables) section for more details. If you don't use a `.env` file, ensure to set them in the terminal before running the app. Make sure these environment variables point to your _local_ MongoDB and RabbitMQ instances (e.g., `mongodb://localhost:27017/xray_db`, `amqp://localhost:5672`).
+    Create a `.env` file in the root of your project and add the necessary environment variables (e.g., database connection string, RabbitMQ connection details). See the `.env.sample` file for more details. If you don't use a `.env` file, ensure to set them in the terminal before running the app. Make sure these environment variables point to your _local_ MongoDB and RabbitMQ instances (e.g., `mongodb://localhost:27017/xray_db`, `amqp://localhost:5672`).
 
 4.  **Start the NestJS application:**
 
@@ -65,7 +65,7 @@ This application can be run either locally (for development) or using Docker and
 
 1.  **Configure Environment Variables (Optional):**
 
-    Create a `.env` file in the root of your project and add the necessary environment variables (e.g., database connection string, RabbitMQ connection details). See the [Environment Variables](#environment-variables) section for more details. If you don't use a `.env` file, ensure to set them in the terminal before running the app. When using Docker, these environment variables should use the container names for MongoDB and RabbitMQ (e.g., `mongodb://mongodb:27017/xray_db`, `amqp://rabbitmq:5672`).
+    Create a `.env` file in the root of your project and add the necessary environment variables (e.g., database connection string, RabbitMQ connection details). See the `.env.sample` file for more details. If you don't use a `.env` file, ensure to set them in the terminal before running the app. When using Docker, these environment variables should use the container names for MongoDB and RabbitMQ (e.g., `mongodb://mongodb:27017/xray_db`, `amqp://rabbitmq:5672`).
 
 2.  **Start the services using Docker Compose:**
 
